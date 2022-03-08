@@ -6,4 +6,7 @@ mklink /J Bin64 "C:\Program Files (x86)\Steam\steamapps\common\SpaceEngineers\Bi
 REM Location of the local Torch instance (Torch.Server.exe and DedicatedServer64 folder)
 mklink /J Torch "C:\Torch"
 
+REM Enable running C# scripts
+dotnet tool restore
+
 pause
