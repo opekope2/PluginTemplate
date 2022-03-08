@@ -3,24 +3,50 @@
 ## Prerequisites
 
 - [Space Engineers](https://store.steampowered.com/app/244850/Space_Engineers/)
-- [Python 3.x](https://python.org) (tested with 3.9)
+- [.NET SDK](https://get.dot.net) (tested with .NET 6)
 - [Plugin Loader](https://steamcommunity.com/sharedfiles/filedetails/?id=2407984968)
-- [Torch Server](https://torchapi.net/) in `C:\Torch`, run `Torch.Server.exe` once to prepare
+- [Torch Server](https://torchapi.net/) in `C:\Torch`, run `Torch.Server.exe` once to prepare (Windows) \
+  On Linux, just download and extract it somewhere. See Remarks/Torch plugin and `prepare.sh` for details
 
 ## Create your plugin project
 
 1. Click on **Use this template** (top right corner on GitHub) and follow the wizard to create your repository
 2. Clone your repository to have a local working copy
-3. Run `ReplaceGuidsAndRename.py`, enter the name of your plugin project in `CapitalizedWords` format
-4. Edit `Edit-and-run-before-opening-solution.bat` to match your local paths, then run it
-5. Open the solution in Visual Studio or Rider
-6. Make a test build, it should deploy the resulting files to their respective target folders (see them in the build log) 
+3. Run `InitializeProject.bat` (Windows) or `InitializeProject.sh` (Linux), enter the name of your plugin project in `CapitalizedWords` format
+4. Edit `Prepare.bat` (Windows) or `Prepare.sh` (Linux) to match your local paths, then run it
+5. Open the solution in Visual Studio or Rider (optional)
+6. Make a test build, it should deploy the resulting files to their respective target folders (see them in the build log) \
+   To make a test build from the terminal, run `dotnet build`
 7. Test that the empty plugin can be enabled in Plugin Loader (client), Torch Server's UI and the Dedicated Server's UI
-8. Delete the `ReplaceGuidsAndRename.py` from the Shared project and the working copy folder (not needed anymore)
-9. Replace the contents of this file with the description of your plugin
+8. Delete `InitializeProject.*` files (not needed anymore)
+9. Replace the contents of this file with the description of your plugin while leaving instructions about how to set up the project for building.
 10. Follow the TODO comments in the source code
+11. Edit `Properties/AssemblyInfo.cs` in each project
+
+## Prepare the plugin project for building after downloading
+
+Follow steps 4-7
 
 ## Remarks
+
+### Template modifications
+
+This template is based on [sepluginloader/PluginTemplate](https://github.com/sepluginloader/PluginTemplate)
+
+I modified it in many ways, including some new features:
+
+- Use of the new SDK-style csproj format.
+
+- It is now built with the new .NET SDK. While it continues to support IDEs like Visual 
+  Studio or Rider, it can now built without an IDE using `dotnet build`. For example, Visual 
+  Studio Code and a terminal on Linux.
+
+- It can be easily built on Linux (except for WPF, see Torch Plugin). There are some people 
+  who like doing this.
+
+- most of the scripts were converted to C# scripts to be run with 
+  [dotnet-script](https://github.com/filipw/dotnet-script). Make sure to run 
+  `dotnet tool restore` or `Prepare.bat`/`Prepare.sh` first!
 
 ### Conditional compilation
 
@@ -40,6 +66,10 @@
 - You can delete the projects you don't need. If you want only a single project, 
   then move over what is in the Shared one, then you can delete Shared.
 
+- When building outside an IDE and adding files to the shared project, make sure to 
+  manually add them in `Shared/Shared.projitems`. Otherwise, they won't be compiled 
+  and you won't understand why it won't load the patches.
+
 ### Torch plugin
 
 - For Torch plugins see also the official
@@ -48,13 +78,17 @@
 
 - If you don't need the config UI in Torch for your plugin, then remove the IWpfPlugin
   from the Plugin class and the `xaml` and `xaml.cs` files. Also remove the now unused
-  `GetControl` method.
+  `GetControl` method and the "enable WPF block" from `TorchPlugin/TorchPlugin.csproj`.
  
+- Torch uses WPF UI, which cannot be built on Linux. Use wine or a virtual machine in 
+  this case. You can also remove TorchPlugin from the solution so it won't make your 
+  build fail.
+
 - Torch plugins should not use Harmony for patching, ideally. 
   Torch has its own patching mechanism, which is more compatible with other plugins, 
   but less convenient to use. If you want to remove Harmony from the Torch plugin, 
-  then search for USE_HARMONY in all files, which will show you where to make changes. 
-  Also remove Lib.Harmony from the TorchPlugin project's NuGet package dependencies.
+  then search for `<UseHarmony>true</UseHarmony>` in TorchPlugin, and set it to false, 
+  then search for USE_HARMONY in all files, which will show you where to make changes.
 
 ### Debugging
 
