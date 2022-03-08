@@ -1,6 +1,4 @@
-﻿#define USE_HARMONY
-
-using System;
+﻿using System;
 using System.IO;
 using System.Windows.Controls;
 using HarmonyLib;
