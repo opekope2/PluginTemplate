@@ -34,7 +34,7 @@ void DeployClient()
 {
     Console.WriteLine("Deploying CLIENT plugin binary:");
 
-    Deploy(Path.Combine("..", "..", "..", "..", "Bin64", "Plugins", "Local"), assemblyFile, "0Harmony.dll");
+    Deploy(Path.Combine("..", "..", "..", "..", "Bin64", "Plugins", "Local"), assemblyFile);
 }
 
 void DeployDedicated()

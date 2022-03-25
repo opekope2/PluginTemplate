@@ -5,7 +5,7 @@
 - [Space Engineers](https://store.steampowered.com/app/244850/Space_Engineers/)
 - [.NET SDK](https://get.dot.net) (tested with .NET 6)
 - [Plugin Loader](https://steamcommunity.com/sharedfiles/filedetails/?id=2407984968)
-- [Torch Server](https://torchapi.net/) in `C:\Torch`, run `Torch.Server.exe` once to prepare (Windows) \
+- [Torch Server](https://torchapi.com/) in `C:\Torch`, run `Torch.Server.exe` once to prepare (Windows) \
   On Linux, just download and extract it somewhere. See Remarks/Torch plugin and `prepare.sh` for details
 
 ## Create your plugin project
