@@ -1,15 +1,17 @@
 #!/usr/bin/env -S dotnet script
 string[] args = Args.ToArray();
-if (args.Length < 2)
+if (args.Length < 3)
 {
-    Console.WriteLine("Usage:\tdeploy.csx <DeployType> <AssemblyFile.dll>");
+    Console.WriteLine("Usage:\tdeploy.csx <DeployType> <DeployPath> <AssemblyFile.dll>");
     return 0;
 }
 
 Console.WriteLine();
 //Console.WriteLine("Parameters: " + string.Join(" ", Args));
 
-string deployType = args[0], assemblyFile = args[1];
+string deployType = args[0],
+    deployPath = args[1].Replace('\\', '/').Replace('/', Path.DirectorySeparatorChar),
+    assemblyFile = args[2];
 
 switch (deployType)
 {
@@ -34,28 +36,28 @@ void DeployClient()
 {
     Console.WriteLine("Deploying CLIENT plugin binary:");
 
-    Deploy(Path.Combine("..", "..", "..", "..", "Bin64", "Plugins", "Local"), assemblyFile);
+    Deploy(Path.Combine(deployPath, "Plugins", "Local"), assemblyFile);
 }
 
 void DeployDedicated()
 {
     Console.WriteLine("Deploying DEDICATED SERVER plugin binary:");
 
-    Deploy(Path.Combine("..", "..", "..", "..", "Torch", "DedicatedServer64", "Plugins"), assemblyFile, "0Harmony.dll");
+    Deploy(Path.Combine(deployPath, "DedicatedServer64", "Plugins"), assemblyFile, "0Harmony.dll");
 }
 
 void DeployTorch()
 {
     Console.WriteLine("Deploying TORCH SERVER plugin binary:");
 
-    Deploy(Path.Combine("..", "..", "..", "..", "Torch", "Plugins"), assemblyFile, "manifest.xml");
+    Deploy(Path.Combine(deployPath, "Plugins"), assemblyFile, "manifest.xml");
 }
 
 void DeployTorchHarmony()
 {
     Console.WriteLine("Deploying TORCH SERVER plugin binary:");
 
-    Deploy(Path.Combine("..", "..", "..", "..", "Torch", "Plugins"), assemblyFile, "0Harmony.dll", "manifest.xml");
+    Deploy(Path.Combine(deployPath, "Plugins"), assemblyFile, "0Harmony.dll", "manifest.xml");
 }
 
 void Deploy(string targetDir, params string[] files)

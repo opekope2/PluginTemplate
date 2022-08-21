@@ -6,22 +6,24 @@
 - [.NET SDK](https://get.dot.net) (tested with .NET 6)
 - [Plugin Loader](https://steamcommunity.com/sharedfiles/filedetails/?id=2407984968)
 - [Torch Server](https://torchapi.com/) in `C:\Torch`, run `Torch.Server.exe` once to prepare (Windows) \
-  On Linux, just download and extract it somewhere. See Remarks/Torch plugin and `prepare.sh` for details
+  On Linux, just download and extract it somewhere. See Remarks/Torch plugin for details
 
 ## Create your plugin project
 
 1. Click on **Use this template** (top right corner on GitHub) and follow the wizard to create your repository
 2. Clone your repository to have a local working copy
 3. Run `InitializeProject.bat` (Windows) or `InitializeProject.sh` (Linux), enter the name of your plugin project in `CapitalizedWords` format
-4. Edit `Prepare.bat` (Windows) or `Prepare.sh` (Linux) to match your local paths, then run it
-5. Open the solution in Visual Studio or Rider (optional)
-6. Make a test build, it should deploy the resulting files to their respective target folders (see them in the build log) \
+4. Open `Directory.Build.props` and add Space Engineers and/or Torch Path (whichever is needed)
+5. On Linux, symlink Space Engineers Dedicated Server into Torch folder (`ln -s "/path/to/SteamLibrary/steamapps/common/SpaceEngineersDedicatedServer/DedicatedServer64" /path/to/Torch/DedicatedServer64`)
+6. Restore dotnet tools and projects using `Prepare.bat` (Windows) or `Prepare.sh` (Linux) or `dotnet tool restore` then `dotnet restore` (command line)
+7. Open the solution in Visual Studio or Rider (optional)
+8. Make a test build, it should deploy the resulting files to their respective target folders (see them in the build log) \
    To make a test build from the terminal, run `dotnet build`
-7. Test that the empty plugin can be enabled in Plugin Loader (client), Torch Server's UI and the Dedicated Server's UI
-8. Delete `InitializeProject.*` files (not needed anymore)
-9. Replace the contents of this file with the description of your plugin while leaving instructions about how to set up the project for building.
-10. Follow the TODO comments in the source code
-11. Edit `Properties/AssemblyInfo.cs` in each project
+9. Test that the empty plugin can be enabled in Plugin Loader (client), Torch Server's UI and the Dedicated Server's UI
+10. Delete `InitializeProject.*` files (not needed anymore)
+11. Replace the contents of this file with the description of your plugin while leaving instructions about how to set up the project for building.
+12. Follow the TODO comments in the source code
+13. Edit `Properties/AssemblyInfo.cs` in each project
 
 ## Prepare the plugin project for building after downloading
 

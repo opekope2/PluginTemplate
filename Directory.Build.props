@@ -1,0 +1,9 @@
+<Project>
+    <PropertyGroup>
+        <!-- Space Engineers Bin64 path -->
+        <SpaceEngineersPath></SpaceEngineersPath>
+        <!-- Torch path -->
+        <TorchPath></TorchPath>
+        <HarmonyVersion>2.2.2</HarmonyVersion>
+    </PropertyGroup>
+</Project>
